@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\v1\AuthController;
-use App\Http\Controllers\Api\v1\CategoryController;
-use App\Http\Controllers\Api\v1\CountryController;
-use App\Http\Controllers\Api\v1\TestimonyController;
+use App\Http\Controllers\API\V1\AuthController;
+use App\Http\Controllers\API\V1\CategoryController;
+use App\Http\Controllers\API\vV1\CountryController;
+use App\Http\Controllers\API\V1\TestimonyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +26,11 @@ Route::get('/', function () {
  * Non autheticated routes
  */
  Route::get('/testimonies', [TestimonyController::class, 'index']);
- Route::get('/categories', [CategoryController::class, 'index']);
  Route::get('/countries', [CountryController::class, 'index']);
+ Route::group(["prefix"=>'categories'], function () {
+     Route::get('', [CategoryController::class, 'index']);
+     Route::get('{categoryId}/skills', [CategoryController::class, 'show']);
+ });
  Route::post('/register', [AuthController::class, 'register'])->name('register');
  Route::post('/login', [AuthController::class,'login'])->name('login');
 

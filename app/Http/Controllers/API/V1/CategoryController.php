@@ -19,4 +19,19 @@ class CategoryController extends Controller
         $categories = Category::all();
         return ResponseController::response(true, $categories, Response::HTTP_OK);
     }
+
+    /**
+    * Get all skills by Category
+    *@param int $categoryId
+    * @return Illuminate\Http\JsonResponse
+    */
+    public function show(int $categoryId):JsonResponse
+    {
+        try {
+            $skills = Category::findorFail($categoryId)->skills;
+            return ResponseController::response(true, $skills, Response::HTTP_OK);
+        } catch (\Exception $error) {
+            return ResponseController::response(false, $error->getMessage(), Response::HTTP_NOT_FOUND);
+        }
+    }
 }
