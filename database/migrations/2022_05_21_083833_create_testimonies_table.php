@@ -13,12 +13,14 @@ class CreateTestimoniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('testimonies', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('company_icon');
-            $table->text('description');
-        });
+        if(! Schema::hasTable('testimonies')){
+            Schema::create('testimonies', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('company_icon');
+                $table->text('description');
+            });
+        }
     }
 
     /**

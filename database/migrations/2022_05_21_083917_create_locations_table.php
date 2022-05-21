@@ -13,14 +13,16 @@ class CreateLocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('locations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('country_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->string('city');
-        });
+        if (! Schema::hasTable('locations')) {
+            Schema::create('locations', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('country_id')
+                     ->constrained()
+                     ->onUpdate('cascade')
+                     ->onDelete('cascade');
+                $table->string('city');
+            });
+        }
     }
 
     /**

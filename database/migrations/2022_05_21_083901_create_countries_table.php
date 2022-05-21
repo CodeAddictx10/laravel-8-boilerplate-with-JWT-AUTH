@@ -13,15 +13,17 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
-            $table->id();
-            $table->string('iso');
-            $table->string('name');
-            $table->string('nicename');
-            $table->string('iso3')->nullable();
-            $table->string('numcode')->nullable();
-            $table->string('phonecode')->nullable();
-        });
+        if (! Schema::hasTable('countries')) {
+            Schema::create('countries', function (Blueprint $table) {
+                $table->id();
+                $table->string('iso');
+                $table->string('name');
+                $table->string('nicename');
+                $table->string('iso3')->nullable();
+                $table->string('numcode')->nullable();
+                $table->string('phonecode')->nullable();
+            });
+        }
     }
 
     /**
