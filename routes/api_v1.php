@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\CategoryController;
-use App\Http\Controllers\API\vV1\CountryController;
+use App\Http\Controllers\API\V1\CountryController;
+use App\Http\Controllers\API\V1\HireController;
 use App\Http\Controllers\API\V1\TestimonyController;
 
 /*
@@ -31,11 +32,13 @@ Route::get('/', function () {
      Route::get('', [CategoryController::class, 'index']);
      Route::get('{categoryId}/skills', [CategoryController::class, 'show']);
  });
+
  Route::post('/register', [AuthController::class, 'register'])->name('register');
  Route::post('/login', [AuthController::class,'login'])->name('login');
 
-
+ Route::post('talents/search', [HireController::class, 'filterTalents'])->name('get-talent');
 
   Route::middleware(['auth:api'])->group(function () {
       Route::get('auth', [AuthController::class, 'auth']);
+      Route::post('hires', [HireController::class, 'store']);
   });

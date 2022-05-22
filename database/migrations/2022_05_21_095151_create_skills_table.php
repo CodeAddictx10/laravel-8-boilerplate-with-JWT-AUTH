@@ -17,7 +17,7 @@ class CreateSkillsTable extends Migration
             Schema::create('skills', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('category_id')
-                    ->constrained()
+                    ->constrained('categories')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
                 $table->string('title')->index();

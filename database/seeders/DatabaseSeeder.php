@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
         CategorySeeder::class,
         CountrySeeder::class,
         TestimonySeeder::class,
-        SkillSeeder::class
+        SkillSeeder::class,
+        LocationSeeder::class,
+        TalentSeeder::class,
+        TalentSkillSeeder::class
     ]);
     }
 }

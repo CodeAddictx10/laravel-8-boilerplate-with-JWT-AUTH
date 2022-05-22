@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Skill;
+use App\Models\Talent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class LocationFactory extends Factory
+class TalentSkillFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,8 +16,8 @@ class LocationFactory extends Factory
     public function definition()
     {
         return [
-            'country_id' => 156,
-            'city' => $this->faker->city(),
+            'skill_id' => Skill::inRandomOrder()->first()->id,
+            'talent_id' => Talent::inRandomOrder()->first()->id,
         ];
     }
 }

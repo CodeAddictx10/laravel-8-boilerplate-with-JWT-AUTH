@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
                 $table->string('phone_number')->unique()->index();
                 $table->string('password');
                 $table->foreignId('country_id')
-                     ->constrained()
+                     ->constrained('countries')
                      ->onUpdate('cascade')
                      ->onDelete('cascade');
                 $table->timestamps();

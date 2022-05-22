@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Location;
+use App\Models\TalentSkill;
 use Illuminate\Database\Seeder;
 
-class LocationSeeder extends Seeder
+class TalentSkillSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,8 @@ class LocationSeeder extends Seeder
      */
     public function run()
     {
-        Location::factory()
-            ->count(50)
+        TalentSkill::factory()
+            ->count(70)
             ->create();
     }
 }

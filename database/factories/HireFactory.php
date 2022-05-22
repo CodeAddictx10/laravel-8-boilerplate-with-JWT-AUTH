@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class LocationFactory extends Factory
+class HireFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,8 +14,7 @@ class LocationFactory extends Factory
     public function definition()
     {
         return [
-            'country_id' => 156,
-            'city' => $this->faker->city(),
+            //
         ];
     }
 }

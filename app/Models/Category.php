@@ -15,6 +15,7 @@ class Category extends Model
     * @var bool
     */
     public $timestamps = false;
+
     /**
     *Category has many skills relation
     */

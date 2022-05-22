@@ -48,14 +48,14 @@ class RegisterLoginFormRequest extends FormRequest
         if ($this->route()->action['as'] === 'login') {
             return [
                 'email'=>'required|email',
-                'password'=>'required|min:6:max:50',
+                'password'=>'required|min:6|max:50',
             ];
         }
         return [
             'full_name'=>'required|min:3|max:225',
             'email'=>'required|email|unique:users,email',
             'phone_number'=>'required|unique:users,phone_number',
-            'password'=>'required|min:6:max:50',
+            'password'=>'required|min:6|max:50',
             'country_id'=>'required|integer',
         ];
     }
