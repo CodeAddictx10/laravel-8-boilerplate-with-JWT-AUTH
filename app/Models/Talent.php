@@ -21,6 +21,7 @@ class Talent extends Model
     * @var array<string, string>
     */
     protected $casts = [
-        'experience'=> 'array'
+        'experience'=> 'array',
+        'education'=> 'array'
     ];
 }
