@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShowcasesTable extends Migration
+class CreateSavedProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,19 @@ class CreateShowcasesTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('showcases')) {
-            Schema::create('showcases', function (Blueprint $table) {
+        if (! Schema::hasTable('saved_profiles')) {
+            Schema::create('saved_profiles', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('user_id')
+                 ->nullable()
                  ->constrained('users')
                  ->cascadeOnUpdate()
-                 ->cascadeOnDelete();
+                 ->nullOnDelete();
                 $table->foreignId('talent_id')
                  ->nullable()
                  ->constrained('talents')
                  ->cascadeOnUpdate()
                  ->nullOnDelete();
-                $table->date('date')->nullable()->index();
-                $table->time('time')->nullable();
-                $table->date('meeting_link')->nullable();
-                $table->date('test_link')->nullable();
-                $table->boolean('status')->default(0)->index();
                 $table->timestamps();
             });
         }
@@ -42,6 +38,6 @@ class CreateShowcasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('showcases');
+        Schema::dropIfExists('saved_profiles');
     }
 }

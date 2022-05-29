@@ -18,7 +18,7 @@ class AuthController extends Controller
      */
     public function register(RegisterLoginFormRequest $request): JsonResponse
     {
-        $user =  $request->safe()->only(['full_name', 'email', 'phone_number', 'country_id']);
+        $user =  $request->safe()->only(['full_name', 'email', 'phone_number', 'country_id', 'company']);
         $password = $request->safe()->only(['password'])["password"];
         $user['password'] = bcrypt($password);
         try {

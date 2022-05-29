@@ -40,7 +40,7 @@ class TalentFactory extends Factory
     public function edu()
     {
         $values = array();
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $values []= ["school"=>$this->faker->sentence(3), "course"=>$this->faker->sentence(3), "year"=>$this->faker->year()."-".$this->faker->year()];
         }
         return $values;

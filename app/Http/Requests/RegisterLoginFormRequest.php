@@ -45,7 +45,7 @@ class RegisterLoginFormRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->route()->action['as'] === 'login') {
+        if ($this->routeIs('login')) {
             return [
                 'email'=>'required|email',
                 'password'=>'required|min:6|max:50',
@@ -56,6 +56,7 @@ class RegisterLoginFormRequest extends FormRequest
             'email'=>'required|email|unique:users,email',
             'phone_number'=>'required|unique:users,phone_number',
             'password'=>'required|min:6|max:50',
+            'company'=>'required|max:255',
             'country_id'=>'required|integer',
         ];
     }
@@ -79,7 +80,9 @@ class RegisterLoginFormRequest extends FormRequest
         'phone_number.unique' => 'Phone number provided has been used',
         'password.required' => 'Your password is required',
         'password.min' => 'Password must be minimum of 6 characters',
-        'password.max' => 'Password must be maxmum of 50 characters',
+        'password.max' => 'Password must be maximum of 50 characters',
+        'company.required'=>'Please enter your company',
+        'company.max' => 'Company must be maximum of 225 characters',
         'country_id.required'=>'Please select your country',
         'country_id.integer'=>'An integer is required'
 

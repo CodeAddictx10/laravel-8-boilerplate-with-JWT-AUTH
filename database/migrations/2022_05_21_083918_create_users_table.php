@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
                      ->constrained('countries')
                      ->onUpdate('cascade')
                      ->onDelete('cascade');
+                $table->string('company');
                 $table->timestamps();
             });
         }

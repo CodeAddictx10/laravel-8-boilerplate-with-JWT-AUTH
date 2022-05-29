@@ -4,45 +4,50 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResponseController;
-use App\Http\Requests\HireFormRequest;
+use App\Http\Requests\HireTalentFormRequest;
+use App\Models\SavedProfile;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Hire;
-use App\Models\TalentSkill;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Showcase;
 
 class HireController extends Controller
 {
+    /**
+     *@param HireTalentFormRequest
+     * @return JsonResponse
+     */
+    public function store(HireTalentFormRequest $request):JsonResponse
+    {
+        $action = $request->safe()->only(["action"])["action"];
 
-    /**
-     * @param HireFormRequest $request
-     * @return JsonResponse
-     */
-    public function filterTalents(HireFormRequest $request):JsonResponse
-    {
-        $validated = $request->safe()->only(['category_id','skills','level','availability']);
-        $talents = TalentSkill::with('skill', 'talent')->whereHas('skill', function (Builder $query) use ($validated) {
-            $query->where('category_id', $validated["category_id"])->WhereIn('title', $validated["skills"]);
-        })->WhereHas('talent', function (Builder $query) use ($validated) {
-            $query->where('level', $validated["level"])->where('status', 0)->orWhere('availability', $validated["availability"]);
-        })
-        ->inRandomOrder()
-        ->get();
-        return ResponseController::response(true, $talents, Response::HTTP_OK);
-    }
-    /**
-     * @param HireFormRequest $request
-     * @return JsonResponse
-     */
-    public function store(HireFormRequest $request):JsonResponse
-    {
-        $validated = $request->safe()->only(['category_id','skills','level','availability','workplace','duration','available_in']);
-        $validated["user_id"] = auth()->user()->id;
-        try {
-            Hire::create($validated);
-            return ResponseController::response(true, 'Posted', Response::HTTP_CREATED);
-        } catch (\Exception $error) {
-            return ResponseController::response(false, $error->getMessage(), Response::HTTP_BAD_REQUEST);
+        switch ($action) {
+            case 'schedule an interview':
+                $validated = $request->safe()->only(['talentId', 'meeting_link', 'test_link', 'date']);
+                $validated["time"] = $request->safe()->only(["time"])." ".$request->safe()->only(["timezone"]);
+                $validated["user_id"] = auth()->user()->id;
+                $validated["status"] = 2;
+                Showcase::create($validated);
+                //send out an email to talent for availability
+                return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
+                break;
+            case 'not interested':
+                $validated = $request->safe()->only(['talentId']);
+                $validated["user_id"] = auth()->user()->id;
+                $validated["status"] = 4;
+                Showcase::create($validated);
+                //send out an email to talent for availability
+                return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
+                break;
+            case 'save':
+                $validated = $request->safe()->only(['talentId']);
+                $validated["user_id"] = auth()->user()->id;
+                SavedProfile::create($validated);
+                return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
+                break;
+
+            default:
+                 return ResponseController::response(true, "No action given", Response::HTTP_BAD_REQUEST);
+                break;
         }
     }
 }

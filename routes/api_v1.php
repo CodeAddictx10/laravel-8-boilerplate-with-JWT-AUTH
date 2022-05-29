@@ -5,6 +5,8 @@ use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\CategoryController;
 use App\Http\Controllers\API\V1\CountryController;
 use App\Http\Controllers\API\V1\HireController;
+use App\Http\Controllers\API\V1\SearchController;
+use App\Http\Controllers\API\V1\TalentController;
 use App\Http\Controllers\API\V1\TestimonyController;
 
 /*
@@ -36,9 +38,17 @@ Route::get('/', function () {
  Route::post('/register', [AuthController::class, 'register'])->name('register');
  Route::post('/login', [AuthController::class,'login'])->name('login');
 
- Route::post('talents/search', [HireController::class, 'filterTalents'])->name('get-talent');
+ Route::post('talents/search', [SearchController::class, 'filterTalents'])->name('get-talent');
 
   Route::middleware(['auth:api'])->group(function () {
-      Route::get('auth', [AuthController::class, 'auth']);
-      Route::post('hires', [HireController::class, 'store']);
+      Route::group(["prefix"=>'auth'], function () {
+          Route::get('', [AuthController::class, 'auth']);
+          Route::group(["prefix"=>'talents'], function () {
+              Route::get('latest', [SearchController::class, 'filterTalentsByLatestSearch']);
+              Route::get('search', [SearchController::class, 'filterTalentsBySkill'])->name("searchBySkill");
+              Route::post('search', [SearchController::class, 'store']);
+              Route::post('{talentId}', [TalentController::class, 'show']);
+          });
+          Route::post('showcase', [HireController::class, 'store']);
+      });
   });
