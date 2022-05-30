@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Location;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,6 +22,7 @@ class TalentFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'title' => $this->faker->title(),
             'location_id' => Location::inRandomOrder()->first()->id,
+            'category_id' => Category::inRandomOrder()->first()->id,
             'summary'=>$this->faker->paragraph(7),
             'experience'=>$this->exp(),
             'education'=>$this->edu(),

@@ -47,7 +47,7 @@ class HireTalentFormRequest extends FormRequest
     {
         return [
             'action'=>'required|string|in:schedule an interview,save profile,not interested',
-            'talentId'=>'required|exists:talents,id',
+            'talent_id'=>'required|exists:talents,id',
             'meeting_link'=>'required_if:action,schedule an interview|url',
             'date'=>'required_if:action,schedule an interview|date',
             'time'=>'required_if:action,schedule an interview',
@@ -66,8 +66,8 @@ class HireTalentFormRequest extends FormRequest
         return [
         'action.required'=>'Action parameter is required',
         'action.in'=>'Action must be either be schedule an interview, save or not interested',
-        'talentId.required'=>'Talent Id is required',
-        'talentId.exists'=>'Talent Id does not exists',
+        'talent_id.required'=>'Talent Id is required',
+        'talent_id.exists'=>'Talent Id does not exists',
         'meeting_link.required_if'=>'Interview meeting link is required',
         'meeting_link.url'=>'Interview meeting link must be a valid URL',
         'test_link.required'=>'Interview test link is required',

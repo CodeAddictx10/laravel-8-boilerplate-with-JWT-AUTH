@@ -27,8 +27,9 @@ class CreateShowcasesTable extends Migration
                  ->nullOnDelete();
                 $table->date('date')->nullable()->index();
                 $table->time('time')->nullable();
-                $table->date('meeting_link')->nullable();
-                $table->date('test_link')->nullable();
+                $table->string('timezone')->nullable();
+                $table->string('meeting_link')->nullable();
+                $table->string('test_link')->nullable();
                 $table->boolean('status')->default(0)->index();
                 $table->timestamps();
             });

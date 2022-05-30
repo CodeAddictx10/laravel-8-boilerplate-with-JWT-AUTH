@@ -23,8 +23,12 @@ class CreateTalentTable extends Migration
                 $table->string('title');
                 $table->foreignId('location_id')
                     ->constrained('locations')
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+                $table->foreignId('category_id')
+                    ->constrained('categories')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
                 $table->text('summary');
                 $table->json('experience');
                 $table->json('education');

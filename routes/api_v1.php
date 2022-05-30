@@ -47,8 +47,13 @@ Route::get('/', function () {
               Route::get('latest', [SearchController::class, 'filterTalentsByLatestSearch']);
               Route::get('search', [SearchController::class, 'filterTalentsBySkill'])->name("searchBySkill");
               Route::post('search', [SearchController::class, 'store']);
-              Route::post('{talentId}', [TalentController::class, 'show']);
+              Route::get('{talentId}', [TalentController::class, 'show']);
           });
-          Route::post('showcase', [HireController::class, 'store']);
+          Route::group(["prefix"=>'showcases'], function () {
+              Route::post('', [HireController::class, 'store']);
+              Route::get('interviewed', [TalentController::class, 'getInterviewedTalent']);
+              Route::get('hired', [TalentController::class, 'getHiredTalent']);
+              Route::get('saved', [TalentController::class, 'getSavedTalent']);
+          });
       });
   });

@@ -88,10 +88,10 @@ class SearchController extends Controller
      */
     public function search(int $category_id, array $skills, string $level, string $avail):mixed
     {
-        $talents = TalentSkill::with('skill', 'talent')->whereHas('skill', function (Builder $query) use ($category_id, $skills) {
-            $query->where('category_id', $category_id)->WhereIn('title', $skills);
-        })->WhereHas('talent', function (Builder $query) use ($level, $avail) {
-            $query->where('level', $level)->where('status', 0)->orWhere('availability', $avail);
+        $talents = TalentSkill::with('skill', 'talent')->whereHas('skill', function (Builder $query) use ($skills) {
+            $query->WhereIn('title', $skills);
+        })->WhereHas('talent', function (Builder $query) use ($level, $avail, $category_id) {
+            $query->where('category_id', $category_id)->where('level', $level)->where('status', 0)->orWhere('availability', $avail);
         })
         ->inRandomOrder()
         ->limit(10)

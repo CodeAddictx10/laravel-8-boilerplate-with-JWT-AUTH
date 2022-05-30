@@ -22,8 +22,7 @@ class HireController extends Controller
 
         switch ($action) {
             case 'schedule an interview':
-                $validated = $request->safe()->only(['talentId', 'meeting_link', 'test_link', 'date']);
-                $validated["time"] = $request->safe()->only(["time"])." ".$request->safe()->only(["timezone"]);
+                $validated = $request->safe()->only(['talent_id', 'meeting_link', 'test_link', 'date', 'time', 'timezone']);
                 $validated["user_id"] = auth()->user()->id;
                 $validated["status"] = 2;
                 Showcase::create($validated);
@@ -35,7 +34,6 @@ class HireController extends Controller
                 $validated["user_id"] = auth()->user()->id;
                 $validated["status"] = 4;
                 Showcase::create($validated);
-                //send out an email to talent for availability
                 return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
                 break;
             case 'save':

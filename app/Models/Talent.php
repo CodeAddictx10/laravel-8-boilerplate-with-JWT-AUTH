@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Talent extends Model
 {
@@ -18,7 +19,6 @@ class Talent extends Model
 
     /**
     * The attributes that should be cast.
-    *
     * @var array<string, string>
     */
     protected $casts = [
@@ -34,5 +34,15 @@ class Talent extends Model
     public function skills(): HasMany
     {
         return $this->hasMany(TalentSkill::class, 'talent_id');
+    }
+
+    /**
+     * Get the category that owns the Talent
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
