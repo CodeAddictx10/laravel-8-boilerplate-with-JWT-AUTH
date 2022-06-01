@@ -48,4 +48,12 @@ class HireController extends Controller
                 break;
         }
     }
+
+    public function getUserStats():JsonResponse
+    {
+        $hired = Showcase::where("user_id", auth()->user()->id)->where('status', 1)->count();
+        $shortlisted = SavedProfile::where("user_id", auth()->user()->id)->count();
+        $interviewing = Showcase::where("user_id", auth()->user()->id)->where('status', 2)->count();
+        return ResponseController::response(true, ['hired'=>$hired, 'shortlist'=>$shortlisted, 'interviewed'=>$interviewing], Response::HTTP_OK);
+    }
 }
