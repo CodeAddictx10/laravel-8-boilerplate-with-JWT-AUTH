@@ -30,14 +30,14 @@ class HireController extends Controller
                 return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
                 break;
             case 'not interested':
-                $validated = $request->safe()->only(['talentId']);
+                $validated = $request->safe()->only(['talent_id']);
                 $validated["user_id"] = auth()->user()->id;
                 $validated["status"] = 4;
                 Showcase::create($validated);
                 return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
                 break;
-            case 'save':
-                $validated = $request->safe()->only(['talentId']);
+            case 'save profile':
+                $validated = $request->safe()->only(['talent_id']);
                 $validated["user_id"] = auth()->user()->id;
                 SavedProfile::create($validated);
                 return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
