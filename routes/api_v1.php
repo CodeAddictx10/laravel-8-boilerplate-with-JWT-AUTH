@@ -43,6 +43,7 @@ Route::get('/', function () {
   Route::middleware(['auth:api'])->group(function () {
       Route::group(["prefix"=>'auth'], function () {
           Route::get('', [AuthController::class, 'auth']);
+          Route::get('/userstats', [HireController::class, 'getUserStats']);
           Route::group(["prefix"=>'talents'], function () {
               Route::get('latest', [SearchController::class, 'filterTalentsByLatestSearch']);
               Route::get('search', [SearchController::class, 'filterTalentsBySkill'])->name("searchBySkill");
