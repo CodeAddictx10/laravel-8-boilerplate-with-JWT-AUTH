@@ -65,7 +65,7 @@ class HireTalentFormRequest extends FormRequest
     {
         return [
         'action.required'=>'Action parameter is required',
-        'action.in'=>'Action must be either be schedule an interview, save or not interested',
+        'action.in'=>'Action must be either be schedule an interview, save profile or not interested',
         'talent_id.required'=>'Talent Id is required',
         'talent_id.exists'=>'Talent Id does not exists',
         'meeting_link.required_if'=>'Interview meeting link is required',

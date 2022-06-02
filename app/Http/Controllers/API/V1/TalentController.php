@@ -65,7 +65,9 @@ class TalentController extends Controller
     public function getSavedTalent(): JsonResponse
     {
         try {
-            $talent = SavedProfile::with('talent')->where("user_id", auth()->user()->id)->paginate(10);
+            $talent = SavedProfile::with(['talent','talent.skills'=> function ($query) {
+                $query->with('skill');
+            }])->where("user_id", auth()->user()->id)->paginate(10);
             return ResponseController::response(true, $talent, Response::HTTP_OK);
         } catch (\Exception $error) {
             return ResponseController::response(false, $error->getMessage(), Response::HTTP_BAD_REQUEST);
