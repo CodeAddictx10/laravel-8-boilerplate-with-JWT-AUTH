@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\ResponseController;
-use App\Models\LatestSearch;
 use App\Models\SavedProfile;
 use App\Models\Showcase;
 use App\Models\Talent;
@@ -38,9 +37,8 @@ class TalentController extends Controller
     */
     public function getInterviewedTalent(): JsonResponse
     {
-        $today = Carbon::now()->format('Y-m-d');
         try {
-            $talent = Showcase::with('talent')->where("user_id", auth()->user()->id)->where('date', $today)->where('status', 2)->get();
+            $talent = Showcase::with('talent')->where("user_id", auth()->user()->id)->where('status', 2)->get();
             return ResponseController::response(true, $talent, Response::HTTP_OK);
         } catch (\Exception $error) {
             return ResponseController::response(false, $error->getMessage(), Response::HTTP_BAD_REQUEST);
@@ -53,8 +51,11 @@ class TalentController extends Controller
     public function getHiredTalent(): JsonResponse
     {
         try {
-            $talent = Showcase::with('talent')->where("user_id", auth()->user()->id)->where('status', 1)->get()->groupBy('talent.category.title')->all();
-            return ResponseController::response(true, $talent, Response::HTTP_OK);
+            $talents = Showcase::with(['talent','talent.skills'=> function ($query) {
+                $query->with('skill');
+            }])->where("user_id", auth()->user()->id)->where('status', 1)->get();
+            // ->groupBy('talent.category.title')->all()
+            return ResponseController::response(true, $talents, Response::HTTP_OK);
         } catch (\Exception $error) {
             return ResponseController::response(false, $error->getMessage(), Response::HTTP_BAD_REQUEST);
         }
@@ -71,6 +72,19 @@ class TalentController extends Controller
                 $query->with('skill');
             }])->where("user_id", auth()->user()->id)->paginate(10);
             return ResponseController::response(true, $talent, Response::HTTP_OK);
+        } catch (\Exception $error) {
+            return ResponseController::response(false, $error->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+    * Remove user's saved talents
+    * @return JsonResponse
+    */
+    public function removeSavedTalent($talentId): JsonResponse
+    {
+        try {
+            SavedProfile::where("user_id", auth()->user()->id)->where('talent_id', $talentId)->delete();
+            return ResponseController::response(true, 'Remove', Response::HTTP_OK);
         } catch (\Exception $error) {
             return ResponseController::response(false, $error->getMessage(), Response::HTTP_BAD_REQUEST);
         }

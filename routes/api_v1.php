@@ -56,5 +56,7 @@ Route::get('/', function () {
               Route::get('hired', [TalentController::class, 'getHiredTalent']);
               Route::get('saved', [TalentController::class, 'getSavedTalent']);
           });
+
+          Route::delete('saved/{talentId}', [TalentController::class, 'removeSavedTalent']);
       });
   });
