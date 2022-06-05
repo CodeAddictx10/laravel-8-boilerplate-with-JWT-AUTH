@@ -13,6 +13,10 @@ use Carbon\Carbon;
 
 class TalentController extends Controller
 {
+    public function test()
+    {
+        return Carbon::now()->toDateTimeLocalString();
+    }
     /**
     * Get  talent by talentId
     * @return JsonResponse

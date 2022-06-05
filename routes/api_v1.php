@@ -32,7 +32,7 @@ Route::get('/', function () {
  Route::get('/countries', [CountryController::class, 'index']);
  Route::group(["prefix"=>'categories'], function () {
      Route::get('', [CategoryController::class, 'index']);
-     Route::get('{categoryId}/skills', [CategoryController::class, 'show']);
+     Route::post('/skills', [CategoryController::class, 'show'])->name("getSkillsByCategories");
  });
 
  Route::post('/register', [AuthController::class, 'register'])->name('register');

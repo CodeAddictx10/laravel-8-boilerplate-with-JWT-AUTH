@@ -13,13 +13,10 @@ class CreateLatestSearchesTable extends Migration
      */
     public function up()
     {
-        if(! Schema::hasTable('latest_searches')){
+        if (! Schema::hasTable('latest_searches')) {
             Schema::create('latest_searches', function (Blueprint $table) {
                 $table->id();
-                 $table->foreignId('category_id')
-                 ->constrained('categories')
-                 ->cascadeOnUpdate()
-                 ->cascadeOnDelete();
+                $table->json('category_ids');
                 $table->foreignId('user_id')
                  ->nullable()
                  ->constrained('users')

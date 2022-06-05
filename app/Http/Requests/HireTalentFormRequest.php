@@ -45,6 +45,15 @@ class HireTalentFormRequest extends FormRequest
      */
     public function rules()
     {
+
+          /**
+         * For users to get by skills by one or more categories
+         */
+        if ($this->routeIs('getSkillsByCategories')) {
+            return [
+                'categories'=>'required|array',
+            ];
+        }
         return [
             'action'=>'required|string|in:schedule an interview,save profile,not interested',
             'talent_id'=>'required|exists:talents,id',
@@ -64,6 +73,8 @@ class HireTalentFormRequest extends FormRequest
     public function messages()
     {
         return [
+        'categories.required'=>'Categories parameter is required',
+        'categories.array'=>'Categories parameter is must be type of an array',
         'action.required'=>'Action parameter is required',
         'action.in'=>'Action must be either be schedule an interview, save profile or not interested',
         'talent_id.required'=>'Talent Id is required',

@@ -45,4 +45,13 @@ class Talent extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    /**
+     * Get all of the showcases for the Talent
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function showcases(): HasMany
+    {
+        return $this->hasMany(Showcase::class, 'talent_id');
+    }
 }

@@ -53,7 +53,7 @@ class SearchTalentFormRequest extends FormRequest
          */
         if ($this->routeIs('get-talent')) {
             return [
-                'category_id'=>'required|exists:categories,id',
+                'category_ids'=>'required|array',
                 'skills'=>'required|array',
                 'level'=>'required|in:Entry-Level,Intermediate,Mid-Level',
                 'availability'=>'required|in:Full-Time,Part-Time,Any'
@@ -68,7 +68,7 @@ class SearchTalentFormRequest extends FormRequest
             ];
         }
         return [
-            'category_id'=>'required|exists:categories,id',
+            'category_ids'=>'required|array',
             'skills'=>'required|array',
             'level'=>'required|in:Entry-Level,Intermediate,Mid-Level',
             'availability'=>'required|in:Full-Time,Part-Time,Any',
@@ -86,8 +86,8 @@ class SearchTalentFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'category_id.required'=>'Category Id is required',
-            'category_id.exists'=>'Category Id does not exists',
+            'category_ids.required'=>'Category Id is required',
+            'category_ids.array'=>'Category Ids must be type of an array',
             'skills.required'=>'At least a skill is required',
             'skill.required'=>'Skill is required',
             'skill.string'=>'Skill must be a string',

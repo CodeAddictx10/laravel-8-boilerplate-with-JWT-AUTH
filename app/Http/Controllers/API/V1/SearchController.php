@@ -19,13 +19,13 @@ class SearchController extends Controller
     */
     public function filterTalentsByLatestSearch():JsonResponse
     {
-        $latestSearch = LatestSearch::where('user_id', auth()->user()->id)->latest()->first(['category_id','skills','level','availability']);
+        $latestSearch = LatestSearch::where('user_id', auth()->user()->id)->latest()->first(['category_ids','skills','level','availability']);
 
         if (!$latestSearch) {
             return ResponseController::response(false, 'No talent found', Response::HTTP_NOT_FOUND);
         }
 
-        $talents = $this->search($latestSearch->category_id, $latestSearch->skills, $latestSearch->level, $latestSearch->availability);
+        $talents = $this->search($latestSearch->category_ids, $latestSearch->skills, $latestSearch->level, $latestSearch->availability);
         return ResponseController::response(true, $talents, Response::HTTP_OK);
     }
     /**
@@ -54,8 +54,8 @@ class SearchController extends Controller
      */
     public function filterTalents(SearchTalentFormRequest $request):JsonResponse
     {
-        $validated = $request->safe()->only(['category_id','skills','level','availability']);
-        $talents = $this->search($validated['category_id'], $validated['skills'], $validated["level"], $validated["availability"]);
+        $validated = $request->safe()->only(['category_ids','skills','level','availability']);
+        $talents = $this->search($validated['category_ids'], $validated['skills'], $validated["level"], $validated["availability"]);
         return ResponseController::response(true, $talents, Response::HTTP_OK);
     }
 
@@ -66,9 +66,9 @@ class SearchController extends Controller
      */
     public function store(SearchTalentFormRequest $request):JsonResponse
     {
-        $validated = $request->safe()->only(['category_id','skills','level','availability','workplace','duration','available_in']);
+        $validated = $request->safe()->only(['category_ids','skills','level','availability','workplace','duration','available_in']);
         $validated["user_id"] = auth()->user()->id;
-        $talents = $this->search($validated['category_id'], $validated['skills'], $validated["level"], $validated["availability"]);
+        $talents = $this->search($validated['category_ids'], $validated['skills'], $validated["level"], $validated["availability"]);
 
         try {
             LatestSearch::create($validated);
@@ -86,14 +86,16 @@ class SearchController extends Controller
      * @param string $avail
      * @return mixed
      */
-    public function search(int $category_id, array $skills, string $level, string $avail):mixed
+    public function search(array $categoryIds, array $skills, string $level, string $avail):mixed
     {
         $talents = TalentSkill::with(['skill', 'talent', 'talent.skills'=> function ($query) {
             $query->with('skill');
         }])->whereHas('skill', function (Builder $query) use ($skills) {
             $query->WhereIn('title', $skills);
-        })->WhereHas('talent', function (Builder $query) use ($level, $avail, $category_id) {
-            $query->where('category_id', $category_id)->where('level', $level)->where('status', 0)->orWhere('availability', $avail);
+        })->WhereHas('talent', function (Builder $query) use ($level, $avail, $categoryIds) {
+            $query->whereIn('category_id', $categoryIds)->where('level', $level)->where('status', 0)->orWhere('availability', $avail)->whereDoesntHave('showcases', function (Builder $query) {
+                $query->where('user_id', auth()->user()->id)->where('status', '=', 4);
+            });
         })
         ->inRandomOrder()
         ->limit(10)

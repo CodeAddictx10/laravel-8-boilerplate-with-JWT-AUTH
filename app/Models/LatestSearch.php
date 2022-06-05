@@ -15,7 +15,7 @@ class LatestSearch extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-       'category_id',
+       'category_ids',
         'skills',
         'level',
         'availability',
@@ -32,6 +32,7 @@ class LatestSearch extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'skills'=>'array'
+        'skills'=>'array',
+        'category_ids'=>'array',
     ];
 }
