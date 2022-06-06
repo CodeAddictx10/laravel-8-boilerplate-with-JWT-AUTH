@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\ResponseController;
 use App\Models\LatestSearch;
 use App\Http\Requests\SearchTalentFormRequest;
+use App\Models\Showcase;
 use Illuminate\Http\JsonResponse;
 
 class SearchController extends Controller
@@ -95,6 +96,7 @@ class SearchController extends Controller
         })->WhereHas('talent', function (Builder $query) use ($level, $avail, $categoryIds) {
             $query->whereIn('category_id', $categoryIds)->where('level', $level)->where('status', 0)->orWhere('availability', $avail)->whereDoesntHave('showcases', function (Builder $query) {
                 $query->where('user_id', auth()->user()->id)->where('status', '=', 4);
+                $query->orwhere('user_id', auth()->user()->id)->where('status', '=', 2);
             });
         })
         ->inRandomOrder()

@@ -52,6 +52,7 @@ Route::get('/', function () {
           });
           Route::group(["prefix"=>'showcases'], function () {
               Route::post('', [HireController::class, 'store']);
+              Route::patch('', [HireController::class, 'update'])->name('updateTalent');
               Route::get('interviewed', [TalentController::class, 'getInterviewedTalent']);
               Route::get('hired', [TalentController::class, 'getHiredTalent']);
               Route::get('saved', [TalentController::class, 'getSavedTalent']);

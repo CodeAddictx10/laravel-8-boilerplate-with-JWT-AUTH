@@ -33,14 +33,20 @@ class HireController extends Controller
             case 'not interested':
                 $validated = $request->safe()->only(['talent_id']);
                 $validated["user_id"] = auth()->user()->id;
-                $validated["status"] = 4;
-                Showcase::create($validated);
+                 Showcase::updateOrCreate(
+                     ['status' => 4],
+                     $validated
+                 );
+
                 return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
                 break;
             case 'save profile':
                 $validated = $request->safe()->only(['talent_id']);
                 $validated["user_id"] = auth()->user()->id;
-                SavedProfile::create($validated);
+                $recordExist = SavedProfile::where('user_id', auth()->user()->id)->where('talent_id', $validated['talent_id'])->exists();
+                if (!$recordExist) {
+                    SavedProfile::create($validated);
+                }
                 return ResponseController::response(true, "Saved", Response::HTTP_CREATED);
                 break;
 
@@ -72,10 +78,10 @@ class HireController extends Controller
                 break;
             case 'not interested':
                 Showcase::updateOrCreate(
-                    ['status' => 4],
-                    ['talent_id' => $talentId, 'status' => 2, 'user_id'=>$userId]
+                    ['talent_id' => $talentId, 'status' => 2, 'user_id'=>$userId],
+                    ['status' => 4]
                 );
-                return ResponseController::response(true, "Saved", Response::HTTP_OK);
+                return ResponseController::response(true, "Saved here", Response::HTTP_OK);
                 break;
             case 'save':
                 $recordExist = SavedProfile::where('user_id', $userId)->where('talent_id', $talentId)->exists();
@@ -95,8 +101,7 @@ class HireController extends Controller
     public function getUserStats():JsonResponse
     {
         $hired = Showcase::where("user_id", auth()->user()->id)->where('status', 1)->count();
-        $shortlisted = SavedProfile::where("user_id", auth()->user()->id)->count();
         $interviewing = Showcase::where("user_id", auth()->user()->id)->where('status', 2)->count();
-        return ResponseController::response(true, ['hired'=>$hired, 'shortlist'=>$shortlisted, 'interviewed'=>$interviewing], Response::HTTP_OK);
+        return ResponseController::response(true, ['hired'=>$hired, 'shortlist'=>$interviewing, 'interviewed'=>$interviewing], Response::HTTP_OK);
     }
 }

@@ -10,13 +10,11 @@ use App\Models\Showcase;
 use App\Models\Talent;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class TalentController extends Controller
 {
-    public function test()
-    {
-        return Carbon::now()->toDateTimeLocalString();
-    }
+
     /**
     * Get  talent by talentId
     * @return JsonResponse
@@ -37,12 +35,18 @@ class TalentController extends Controller
 
     /**
     * Get  talents by interviewed by a user
+    *Request $request
     * @return JsonResponse
     */
-    public function getInterviewedTalent(): JsonResponse
+    public function getInterviewedTalent(Request  $request): JsonResponse
     {
         try {
-            $talent = Showcase::with('talent')->where("user_id", auth()->user()->id)->where('status', 2)->get();
+            $talent = Showcase::with(['talent','talent.skills'=> function ($query) {
+                $query->with('skill');
+            }])->where("user_id", auth()->user()->id)->where('status', 2)->get();
+            if ($request->group) {
+                $talent = $talent->groupBy('talent.category.title')->all();
+            }
             return ResponseController::response(true, $talent, Response::HTTP_OK);
         } catch (\Exception $error) {
             return ResponseController::response(false, $error->getMessage(), Response::HTTP_BAD_REQUEST);

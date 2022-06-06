@@ -54,6 +54,19 @@ class HireTalentFormRequest extends FormRequest
                 'categories'=>'required|array',
             ];
         }
+
+        /**
+         * For users to update already interacted talent records
+         */
+
+        if ($this->routeIs('updateTalent')) {
+            return [
+                'action'=>'required|string|in:hire,schedule an interview,save profile,not interested',
+                'talent_id'=>'required|exists:talents,id',
+            ];
+        }
+
+        //schedule an interview
         return [
             'action'=>'required|string|in:schedule an interview,save profile,not interested',
             'talent_id'=>'required|exists:talents,id',
