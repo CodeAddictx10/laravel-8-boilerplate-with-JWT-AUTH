@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
         CountrySeeder::class,
         TestimonySeeder::class,
         SkillSeeder::class,
-        LocationSeeder::class,
         TalentSeeder::class,
         TalentSkillSeeder::class
     ]);

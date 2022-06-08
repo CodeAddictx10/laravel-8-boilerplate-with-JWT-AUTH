@@ -17,11 +17,11 @@ class CreateTalentTable extends Migration
             Schema::create('talents', function (Blueprint $table) {
                 $table->id();
                 $table->string('first_name');
-                $table->string('middle_name');
                 $table->string('last_name');
                 $table->string('email')->unique();
                 $table->string('title');
-                $table->foreignId('location_id')
+                $table->string('city')->index();
+                $table->foreignId('country_id')
                     ->constrained('countries')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
@@ -32,7 +32,7 @@ class CreateTalentTable extends Migration
                 $table->text('summary');
                 $table->json('experience');
                 $table->json('education');
-                $table->string('level')->index();
+                $table->string('level')->index()->default("Entry-Level");
                 $table->string('availability')->index();
                 $table->boolean('status')->default(0)->index();
                 $table->string('avatar')->default("https://ui-avatars.com/api/?name=S%20H&size=200");

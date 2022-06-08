@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
-use App\Models\Location;
+use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TalentFactory extends Factory
@@ -17,17 +17,17 @@ class TalentFactory extends Factory
     {
         return [
             'first_name' => $this->faker->firstName(),
-            'middle_name' => $this->faker->lastName(),
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
             'title' => $this->faker->title(),
-            'location_id' => Location::inRandomOrder()->first()->id,
+            'city' => $this->faker->city(),
+            'country_id' => Country::inRandomOrder()->first()->id,
             'category_id' => Category::inRandomOrder()->first()->id,
             'summary'=>$this->faker->paragraph(7),
             'experience'=>$this->exp(),
             'education'=>$this->edu(),
-            'level'=>  (Location::inRandomOrder()->first()->id % 2) ? 'Mid-Level':'Entry-Level',
-            'availability'=>(Location::inRandomOrder()->first()->id % 2) ? 'Full-Time':'Part-Time',
+            'level'=>  (Country::inRandomOrder()->first()->id % 2) ? 'Mid-Level':'Entry-Level',
+            'availability'=>(Country::inRandomOrder()->first()->id % 2) ? 'Full-Time':'Part-Time',
 
         ];
     }
