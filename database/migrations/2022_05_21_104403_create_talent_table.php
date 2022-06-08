@@ -22,7 +22,7 @@ class CreateTalentTable extends Migration
                 $table->string('email')->unique();
                 $table->string('title');
                 $table->foreignId('location_id')
-                    ->constrained('locations')
+                    ->constrained('countries')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
                 $table->foreignId('category_id')

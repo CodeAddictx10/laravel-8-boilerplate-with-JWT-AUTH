@@ -16,12 +16,12 @@ class CategorySeeder extends Seeder
     {
         DB::table('categories')->delete();
         $categories = array(
-         array('id' => '1', 'title'=>'Engineering', 'description'=>'This is the Engineering category'),
-         array('id' => '2', 'title'=>'Marketing', 'description'=>'This is the Marketing category'),
-         array('id' => '3', 'title'=>'Design', 'description'=>'This is the Design category'),
+         array('id' => '1', 'title'=>'Engineering and Programming', 'description'=>'This is the Engineering and Programming category'),
+         array('id' => '2', 'title'=>'Marketing and Communications', 'description'=>'This is the Marketing and Communications category'),
+         array('id' => '3', 'title'=>'Design and Animation', 'description'=>'This is the Design and Animation category'),
          array('id' => '4', 'title'=>'Product', 'description'=>'This is the Product category'),
+         array('id' => '5', 'title'=>'Data & Customer Support', 'description'=>'This is the Data & Customer Support category'),
         );
-
         DB::table('categories')->insert($categories);
     }
 }
