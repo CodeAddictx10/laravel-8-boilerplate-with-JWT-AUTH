@@ -38,7 +38,7 @@ class SearchController extends Controller
     {
         $skill = $request->safe()->only(['skill']);
         $talents = TalentSkill::with('skill', 'talent')->whereHas('skill', function (Builder $query) use ($skill) {
-            $query->where('title', $skill);
+            $query->where('title','like', '%'.$skill['skill'].'%');
         })->WhereHas('talent', function (Builder $query) {
             $query->where('status', 0);
         })
