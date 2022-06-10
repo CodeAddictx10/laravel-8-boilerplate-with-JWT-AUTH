@@ -23,6 +23,7 @@ class Talent extends Model
      * Get the talent's avatar.
      *
      * @param  string  $value
+     *
      * @return string
      */
     public function getAvatarAttribute($value)
@@ -31,7 +32,7 @@ class Talent extends Model
             if (Str::contains($value, 'https://ui-avatars')) {
                 return $value;
             }
-            return str_replace("digitaloceanspaces", "cdn.digitaloceanspaces", Storage::disk('digitalocean')->url($value));
+            return str_replace("digitaloceanspaces.com", "cdn.digitaloceanspaces.com/talents", Storage::disk('digitalocean')->url($value));
         } else {
             return null;
         }
