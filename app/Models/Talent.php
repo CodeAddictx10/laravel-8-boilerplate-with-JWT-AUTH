@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Talent extends Model
 {
@@ -16,6 +18,24 @@ class Talent extends Model
      * @var string
      */
     protected $table = 'talents';
+
+    /**
+     * Get the talent's avatar.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getAvatarAttribute($value)
+    {
+        if ($value) {
+            if (Str::contains($value, 'https://ui-avatars')) {
+                return $value;
+            }
+            return str_replace("digitaloceanspaces", "cdn.digitaloceanspaces", Storage::disk('digitalocean')->url($value));
+        } else {
+            return null;
+        }
+    }
 
     /**
     * The attributes that should be cast.

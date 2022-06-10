@@ -94,10 +94,11 @@ class SearchController extends Controller
         }])->whereHas('skill', function (Builder $query) use ($skills) {
             $query->WhereIn('title', $skills);
         })->WhereHas('talent', function (Builder $query) use ($level, $avail, $categoryIds) {
-            $query->whereIn('category_id', $categoryIds)->where('level', $level)->where('status', 0)->orWhere('availability', $avail)->whereDoesntHave('showcases', function (Builder $query) {
-                $query->where('user_id', auth()->user()->id)->where('status', '=', 4);
-                $query->orwhere('user_id', auth()->user()->id)->where('status', '=', 2);
-            });
+            $query->whereIn('category_id', $categoryIds)->where('level', $level)->where('status', 0)->orWhere('availability', $avail);
+            // ->whereDoesntHave('showcases', function (Builder $query) {
+            //     $query->where('user_id', auth()->user()->id)->where('status', '=', 4);
+            //     $query->orwhere('user_id', auth()->user()->id)->where('status', '=', 2);
+            // });
         })
         ->inRandomOrder()
         ->limit(10)
