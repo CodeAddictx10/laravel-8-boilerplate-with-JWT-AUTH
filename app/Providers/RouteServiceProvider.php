@@ -20,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
 
     /** @var string $apiNamespace */
-    protected $apiNamespace ='App\Http\Controllers\Api';
+    protected $apiNamespace ='App\Http\Controllers\API';
 
     /**
      * Define your route model bindings, pattern filters, etc.
