@@ -9,7 +9,8 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
     /**
     * Get the identifier that will be stored in the subject claim of the JWT.
     *
@@ -36,12 +37,6 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'full_name',
-        'email',
-        'phone_number',
-        'password',
-        'company',
-        'country_id'
     ];
 
     /**
